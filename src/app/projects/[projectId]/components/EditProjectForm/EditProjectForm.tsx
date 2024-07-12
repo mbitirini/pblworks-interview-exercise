@@ -52,7 +52,9 @@ export const EditProjectForm = ({ project }: { project: Project }) => {
 
   return (
     <Paper sx={{ padding: 2 }}>
-      <Typography variant="h2">{title || 'Untitled Project'}</Typography>
+      <Typography variant="h2" data-testid="project-title-header">
+        {title || 'Untitled Project'}
+      </Typography>
       <Grid container spacing={2} sx={{ mb: 2, mt: 2 }}>
         <Grid item xs={12} md={5} lg={4}>
           <TextField
@@ -75,7 +77,7 @@ export const EditProjectForm = ({ project }: { project: Project }) => {
         <Grid item xs={12}>
           <TextField
             fullWidth
-            label="Project Descripton"
+            label="Project Description"
             value={description}
             placeholder="Describe the project in detail (suggested length: 300 words)"
             onChange={handleDescriptionChange}
