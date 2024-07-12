@@ -30,25 +30,13 @@ export const EditProjectForm = ({ project }: { project: Project }) => {
   // Debounce the onSave function to handle delayed saving after user input stops
   const debouncedSave = useDebounce(onSave)
 
-  // Update the project title state and trigger debounced save
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value)
-    debouncedSave()
-  }
-
-  // Update the project subhead state and trigger debounced save
-  const handleSubheadChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSubhead(event.target.value)
-    debouncedSave()
-  }
-
-  // Update the project description state and trigger debounced save
-  const handleDescriptionChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setDescription(event.target.value)
-    debouncedSave()
-  }
+  // Generalized change handler to update state and trigger debounced save
+  const handleChange =
+    (setter: React.Dispatch<React.SetStateAction<string>>) =>
+    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setter(event.target.value)
+      debouncedSave()
+    }
 
   return (
     <Paper sx={{ padding: 2 }}>
@@ -62,7 +50,7 @@ export const EditProjectForm = ({ project }: { project: Project }) => {
             label="Project Title"
             value={title}
             placeholder="Enter the project title, eg. 'Power of the punch'"
-            onChange={handleTitleChange}
+            onChange={handleChange(setTitle)}
           />
         </Grid>
         <Grid item xs={12} md={7} lg={8}>
@@ -71,7 +59,7 @@ export const EditProjectForm = ({ project }: { project: Project }) => {
             label="Project Subhead"
             value={subhead}
             placeholder="Use a small sentence to describe the project, eg. 'Students will learn Newtons Laws while constructing a boxing glove'"
-            onChange={handleSubheadChange}
+            onChange={handleChange(setSubhead)}
           />
         </Grid>
         <Grid item xs={12}>
@@ -80,7 +68,7 @@ export const EditProjectForm = ({ project }: { project: Project }) => {
             label="Project Description"
             value={description}
             placeholder="Describe the project in detail (suggested length: 300 words)"
-            onChange={handleDescriptionChange}
+            onChange={handleChange(setDescription)}
             multiline
             rows={4}
           />
